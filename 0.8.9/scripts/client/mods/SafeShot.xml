@@ -1,0 +1,9 @@
+<safeShotSetting>
+	
+    <!-- Автор: Skino88 -->
+	
+	<teamShot>true</teamShot>
+	<deadShot>true</deadShot>
+	<deadShotTime>1.7</deadShotTime>
+	
+</safeShotSetting>

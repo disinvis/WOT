@@ -1,0 +1,123 @@
+Название мода: Статистика за сессию в ангаре
+Версия мода: 0.8.8.15
+Авторы мода: STL1te, Dellux
+Конфигурация: MAKAPEHK0
+
+Описание: Мод добавляет в список сервисных сообщений (создан скриншот, окончен бой, что-то куплено в магазине и т.п) различную статистику за сессию.
+Имеется файл настроек для простейшей настройки внешнего вида мода. Имеется возможность хранить статистику до сброса кнопкой.
+
+Установка: 
+    - Копируем содержимое архива в папку с игрой
+        
+Настройка:
+    Файл SessionStatConfig.cfg отвечает за настройку мода. Редактировать его рекомендуется текстовым редактором Notepad++. 
+    Стандартный конфиг:
+    {
+        "saveStats": true, // Сохранять ли статистику после перезапуска клиента? true - да, false - нет.
+        "resetDayStats": true, // Сбрасывать ли статистику каждый день по UTC времени (4:00 МСК)? true - да, false - нет. Не работает при "saveStats": false.
+        "forcedReset": false, // Сбрасывать ли статистику принудительно при запущенном клиенте если наступило время сброса? true - да, false - нет. Не работает при "resetDayStats": false.
+        "showResetButton": false, // Показывать ли кнопку сброса статистики? true - да, false - нет.
+        "hideMessageType": [  ], // Список типов системных сообщений, которые будут блокироваться. Список возможных типов ниже.
+        "hideMessageList": [ "Вы не меняли пароль", "Боекомплект", "Ремонт", "Снаряжение" ], // Список ключевых слов для поиска и блокирования системных сообщений.
+        "showPopUpMessage": true, // Показывать ли всплывающие сообщения? true - да, false - нет.
+        "colorNullBattle": false, // Применять ли цвета из макросов при 0 проведенных боев?  true - да, false - нет.
+        "message": 
+            {
+                "icon": "../maps/icons/library/BattleResultIcon-1.png", // Иконка сообщения со статистикой.
+                "type": "red", // Цвет фона сообщения со статистикой. Может быть: grey, lightGrey, red, green, yellow, а также макросы формата {{c:winsRate}} и др. при наличии секции
+                с параметром winsRate и др. в секции "typeColor". Подробнее о макросах цвета ниже.
+                "typeColor": // Параметры макросов цвета для "type"
+                    {
+                        "winsRate": [
+                            { "value": 50,  "color": "red"    }, // < 50% побед
+                            { "value": 60,  "color": "yellow" }, // < 60% побед
+                            { "value": 101, "color": "green"  }  // < 101% побед
+                        ]
+                    },
+                //О формате сообщения ниже.
+                "format": "<textformat tabstops='[100,165]'><font color='#D6D7D4'>Получено:<tab><font color='{{c:receivedCreditsBattle}}'><b>{{receivedCreditsBattle}}</b></font> \nОбслуживание:<tab><font color='{{c:serviceCostBattle}}'><b>{{serviceCostBattle}}</b></font> \nИтого:<tab><font color='{{c:totalCreditsBattle}}'><b>{{totalCreditsBattle}}</b></font> \n\nПроведено боев:<tab><b>{{battlesCount}}</b> \nПобед:<tab><b>{{winsCount}}<tab><font color='{{c:winsRate}}'>{{winsRate}}</font></b> \nНанесено урона:<tab><b>{{damageDealt}}<tab>{{avgDmgDealt}}</b> \nУничтожено:<tab><b>{{fragsCount}}<tab>{{avgFragsCount}}</b> \nОпыт:<tab><b>{{totalXPRatio}}<tab>{{avgTotalXPRatio}}</b> \nКредиты:<tab><font color='{{c:totalCredits}}'><b>{{totalCredits}}<tab>{{avgTotalCredits}}</b></font></font></textformat>",
+                "statsColor": // Параметры макросов цвета для "fromat".
+                {
+                    "winsRate": [
+                        { "value": 50,  "color": "#CC0000" }, // < 50% побед
+                        { "value": 60,  "color": "#FFCC00" }, // < 60% побед
+                        { "value": 101, "color": "#00CC00" }  // < 101% побед
+                    ],
+                    "credits": [
+                        { "value": 0,         "color": "#CC0000" }, // < 0 кредитов
+                        { "value": 999999999, "color": "#00CC00" }  // < 999999999 кредитов
+                    ]
+                }
+            }
+    }
+    
+    Формат сообщения (тег "format"):
+        Формат - это обычная HTML-строка с возможностью вставки т.н макросов. Каждый макрос имеет такой вид: {{название макроса}}.
+        Вместо этих макросов в конечном итоге подставится какое-либо значение статистики.
+        Макросы значений статистики:
+            {{battlesCount}} - Кол-во боев
+            {{winsCount}} - Кол-во побед
+            {{lossesCount}} - Кол-во поражений
+            {{drawsCount}} - Кол-во ничьих
+            {{winsRate}} - Процент побед
+            {{totalXP}} - Кол-во опыта без учета умножающих коэффициентов
+            {{avgTotalXP}} - Среднее кол-во опыта без учета умножающих коэффициентов за бой
+            {{totalXPRatio}} - Кол-во опыта с учетом умножающих коэффициентов
+            {{avgTotalXPRatio}} - Среднее кол-во опыта с учетом умножающих коэффициентов за бой
+            {{freeXP}} - Баланс свободного опыта
+            {{credits}} - Баланс кредитов
+            {{gold}} - Баланс золота
+            {{damageDealt}} - Кол-во нанесенного урона
+            {{damageReceived}} - Кол-во полученного урона
+            {{avgDmgDealt}} - Средний урон за бой
+            {{damageRatio}} - Коэффициент урона ( {{damageDealt}} / {{damageReceived}} )
+            {{fragsCount}} - Кол-во фрагов
+            {{avgFragsCount}} - Среднее кол-во фрагов за бой
+            {{deathsCount}} - Количество смертей
+            {{fragsRatio}} - Коэффициент уничтожения ( {{fragsCount}} / {{deathsCount}} )
+            {{shotsCount}} - Кол-во выстрелов
+            {{hitsCount}} - Кол-во попаданий
+            {{hitsRate}} - Процент попаданий
+            {{spottedCount}} - Кол-во обнаруженных противников
+            {{receivedCredits}} - Кол-во кредитов полученных по итогам проведенных боев
+            {{serviceCost}} - Кол-во кредитов потраченных на обслуживание танка (ремонт, бк, снаряжение) по итогам проведенных боев
+            {{totalCredits}} - Итого кредитов по итогам проведенных боев ( {{receivedCredits}} - {{serviceCost}} )
+            {{avgTotalCredits}} - Среднее кол-во кредитов за бой ( {{totalCredits}} / {{battlesCount}} )
+            {{receivedCreditsBattle}} - Кол-во кредитов полученных по итогам последнего боя
+            {{serviceCostBattle}} - Кол-во кредитов потраченных на обслуживание танка (ремонт, бк, снаряжение) по итогам последнего боя
+            {{totalCreditsBattle}} - Итого кредитов по итогам последнего боя ( {{receivedCreditsBattle}} - {{serviceCostBattle}} )
+            {{totalFreeXP}} - Итого свободного опыта по итогам проведенных боев
+            {{droppedCapturePoints}} - Очки защиты базы
+            {{capturePoints}} - Очки захвата базы
+            {{avgSpottedCount}} - Среднее кол-во обнаруженных противников за бой
+            {{avgVehicleTier}} - Средний уровень танков по итогам всех боев
+            {{avgDroppedCapture}} - Средние очки защиты базы за бой
+            {{avgCapturePoints}} - Средние очки захвата базы за бой
+            {{wn6}} - WN6 рейтинг за сессию
+            {{wn7}} - WN7 рейтинг за сессию
+            {{eff}} - Рейтинг эффективности за сессию
+            {{xwn6}} - WN6 рейтинг за сессию по двухзначной шкале XVM
+            {{xwn7}} - WN7 рейтинг за сессию по двухзначной шкале XVM
+            {{xeff}} - Рейтинг эффективности за сессию по двухзначной шкале XVM
+        Макросы цвета:
+            При наличии в секции "statsColor" подсекции с именем макроса значений (winsCount, winsRate, credits и т.д.)
+            могут использоваться макросы цвета формата {{c:winsCount}}, {{c:winsRate}}, {{c:credits}} и т.д.
+            Количество блоков типа { "value": 50,  "color": "#CC0000" } не ограничено, при этом "color" - это цвет для
+            значение параметра < значения "value".
+            Например, в стандартном конфиге выше, чтобы установить динамический цвет для "winsRate" мы прописываем в секции
+            "format" следующий HTML-код: <font color='{{c:winsRate}}'>{{winsRate}}</font>
+        Типы системных сообщений:         
+            "Error" - Ошибка
+            "Warning" - Предупреждение
+            "Information" - Информация
+            "GameGreeting" - Приветствие
+            "PowerLevel" - ???
+            "FinancialTransactionWithGold"
+            "FinancialTransactionWithCredits"
+            "PurchaseForGold" - Покупка золота
+            "DismantlingForGold" - Расходы золота
+            "PurchaseForCredits" - Покупка кредитов
+            "Selling" - Продажа
+            "Repair" - Ремонт
+            "CustomizationForGold" - Внешний вид за золото
+            "CustomizationForCredits" - Внешний вид за кредиты

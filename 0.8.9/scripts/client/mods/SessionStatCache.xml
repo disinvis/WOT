@@ -1,0 +1,32 @@
+<SessionStatCache.xml>
+	<disinvis>
+		<createTime>	28.10.2013	</createTime>
+		<variableValues>
+			<serviceCost>	-547845	</serviceCost>
+			<receivedCreditsBattle>	3784	</receivedCreditsBattle>
+			<serviceCostBattle>	-1600	</serviceCostBattle>
+			<totalFreeXP>	2234	</totalFreeXP>
+			<receivedCredits>	1066521	</receivedCredits>
+			<totalXPRatio>	46016	</totalXPRatio>
+			<totalVehicleTier>	277	</totalVehicleTier>
+		</variableValues>
+		<stats>
+			<freeXP>	3242	</freeXP>
+			<gold>	7035	</gold>
+			<totalXP>	2577024	</totalXP>
+			<damageReceived>	1820033	</damageReceived>
+			<capturePoints>	11447	</capturePoints>
+			<damageDealt>	2707643	</damageDealt>
+			<deathsCount>	3249	</deathsCount>
+			<fragsCount>	6182	</fragsCount>
+			<droppedCapturePoints>	5800	</droppedCapturePoints>
+			<spottedCount>	7811	</spottedCount>
+			<credits>	2469837	</credits>
+			<battlesCount>	5249	</battlesCount>
+			<winsCount>	2915	</winsCount>
+			<shotsCount>	66204	</shotsCount>
+			<lossesCount>	2240	</lossesCount>
+			<hitsCount>	37366	</hitsCount>
+		</stats>
+	</disinvis>
+</SessionStatCache.xml>
